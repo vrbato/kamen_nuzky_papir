@@ -23,7 +23,7 @@ while True:
     #ověření zadání
     if hrac not in MOZNOSTI:
         print("Neplatná volba!".upper())
-        break
+
     elif hrac in MOZNOSTI:
         # remíza
         if hrac == pocitac:
@@ -32,10 +32,7 @@ while True:
             print(ODDELOVAC)
             print(f"Body Hráč: {score_hrac} vs Počítač: {score_pc}")
             print("-" * 50)
-            exit = input("Chceš hrát znovu? A/N: ").lower()
-            if exit != "a":
-                print(f"{'Díky za hru':^50}")
-                break
+
 
         #papir - kámen
         if hrac == "papir":
@@ -48,10 +45,6 @@ while True:
                     score_hrac += 1
                 print(f"Body Hráč: {score_hrac} vs Počítač: {score_pc}")
                 print("-" * 50)
-                exit = input("Chceš hrát znovu? A/N: ").lower()
-                if exit != "a":
-                    print(f"{'Díky za hru':^50}")
-                    break
 
         elif hrac == "kamen":
             if pocitac == "papir":
@@ -79,10 +72,6 @@ while True:
                     score_hrac += 1
                 print(f"Body Hráč: {score_hrac} vs Počítač: {score_pc}")
                 print("-" * 50)
-                exit = input("Chceš hrát znovu? A/N: ").lower()
-                if exit != "a":
-                    print(f"{'Díky za hru':^50}")
-                    break
 
         elif hrac == "nuzky":
             if pocitac == "kamen":
@@ -110,10 +99,6 @@ while True:
                     score_hrac += 1
                 print(f"Body Hráč: {score_hrac} vs Počítač: {score_pc}")
                 print("-" * 50)
-                exit = input("Chceš hrát znovu? A/N: ").lower()
-                if exit != "a":
-                    print(f"{'Díky za hru':^50}")
-                    break
 
         elif hrac == "papir":
             if pocitac == "nuzky":
