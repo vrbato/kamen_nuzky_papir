@@ -2,11 +2,13 @@ import random
 from fce_bodovani import *
 
 
-def main():
+
+def hra():
     ODDELOVAC = "=" * 50
     MOZNOSTI = ("kamen", "nuzky", "papir")
     score_hrac = 0
     score_pc = 0
+    game = True
 
     print(
         f"{ODDELOVAC}",
@@ -16,7 +18,7 @@ def main():
         sep="\n"
     )
 
-    while True:
+    while game:
         print(ODDELOVAC)
         hrac = input("Tvoje volba: ").lower()
         pocitac = random.choice(MOZNOSTI)
@@ -52,9 +54,9 @@ def main():
                     print(f"{'Prohrál jsi!':^50}")
                     print(ODDELOVAC)
                     score_pc += 1
-                    bodovani(vysledek,score_hrac, score_pc)
-                    exit = input("Chceš hrát znovu? A/N: ").lower()
-                    if exit != "a":
+                    bodovani(vysledek,score_hrac, score_pc,)
+                    znovu = input("Chceš hrát znovu? A/N: ").lower()
+                    if znovu != "a":
                         print(f"{'Díky za hru':^50}")
                         break
 
@@ -76,8 +78,8 @@ def main():
                     print(ODDELOVAC)
                     score_pc += 1
                     bodovani(vysledek,score_hrac, score_pc)
-                    exit = input("Chceš hrát znovu? A/N: ").lower()
-                    if exit != "a":
+                    znovu = input("Chceš hrát znovu? A/N: ").lower()
+                    if znovu != "a":
                         print(f"{'Díky za hru':^50}")
                         break
 
@@ -99,11 +101,11 @@ def main():
                     print(ODDELOVAC)
                     score_pc += 1
                     bodovani(vysledek,score_hrac, score_pc)
-                    exit = input("Chceš hrát znovu? A/N: ").lower()
-                    if exit != "a":
+                    znovu = input("Chceš hrát znovu? A/N: ").lower()
+                    if znovu != "a":
                         print(f"{'Díky za hru':^50}")
                         break
 
 if __name__ == "__main__":
-    main()
+    hra()
 
