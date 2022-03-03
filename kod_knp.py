@@ -1,15 +1,13 @@
 import random
-from fce_bodovani import *
+
+ODDELOVAC = "=" * 50
+MOZNOSTI = ("kamen", "nuzky", "papir")
 
 
 
-def hra():
+def vypsani_uvitani():
     ODDELOVAC = "=" * 50
     MOZNOSTI = ("kamen", "nuzky", "papir")
-    score_hrac = 0
-    score_pc = 0
-    game = True
-
     print(
         f"{ODDELOVAC}",
         f"{'Pojď si zahrát hru':^50}",
@@ -18,94 +16,80 @@ def hra():
         sep="\n"
     )
 
-    while game:
-        print(ODDELOVAC)
-        hrac = input("Tvoje volba: ").lower()
-        pocitac = random.choice(MOZNOSTI)
-        print(f"Počítač volí: {pocitac}")
 
-        #ověření zadání
-        if hrac not in MOZNOSTI:
-            print("Neplatná volba!".upper())
+def loop_hra():
+    skore_hrac = 0
+    skore_computer = 0
+    while True:
+        hrac_volba = zadani_hrac()
+        ukonceni_hry(hrac_volba)
+        overeni_zadani(hrac_volba, MOZNOSTI)
+        computer_volba = zadani_computer()
+        print(f"Počítač volí: {computer_volba}")
+        print(f"{ODDELOVAC}")
+        vysledek = vyhodnoceni(hrac_volba, computer_volba)
+        print(f"{vysledek: ^50}".upper())
+        print(f"{ODDELOVAC}")
+        skore_hrac, skore_computer = pricteni_bodu(vysledek, skore_hrac, skore_computer)  # uložim si do dvou proměnných
+        vypsani_skore(skore_hrac, skore_computer)
+        print(f"{'Další hra': ^50}")
+        print(f"{ODDELOVAC}")
 
-        elif hrac in MOZNOSTI:
-            # remíza
-            if hrac == pocitac:
-                vysledek = "remiza"
-                print(ODDELOVAC)
-                print(f"{'Remíza!':^50}")
-                print(ODDELOVAC)
-                bodovani(vysledek,score_hrac, score_pc)
 
-            #papir - kámen
-            if hrac == "papir":
-                if pocitac == "kamen":
-                    vysledek = "vyhra"
-                    print(ODDELOVAC)
-                    print(f"{'Vyhrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_hrac += 1
-                    bodovani(vysledek,score_hrac, score_pc)
+def zadani_hrac() -> str:
+    moznost_hrac = input(f"Vyber možnost nebo q pro ukončení hry:").lower()
+    return moznost_hrac
 
-            elif hrac == "kamen":
-                if pocitac == "papir":
-                    vysledek = "prohra"
-                    print(ODDELOVAC)
-                    print(f"{'Prohrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_pc += 1
-                    bodovani(vysledek,score_hrac, score_pc,)
-                    znovu = input("Chceš hrát znovu? A/N: ").lower()
-                    if znovu != "a":
-                        print(f"{'Díky za hru':^50}")
-                        break
 
-            #nuzky - kamen
-            if hrac == "kamen":
-                if pocitac == "nuzky":
-                    vysledek = "vyhra"
-                    print(ODDELOVAC)
-                    print(f"{'Vyhrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_hrac += 1
-                    bodovani(vysledek,score_hrac, score_pc)
+def overeni_zadani(zadani_od_hrace, MOZNOSTI):
+    if zadani_od_hrace not in MOZNOSTI:
+        print("Neplatný výběr! Vyber z možností!")
 
-            elif hrac == "nuzky":
-                if pocitac == "kamen":
-                    vysledek = "prohra"
-                    print(ODDELOVAC)
-                    print(f"{'Prohrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_pc += 1
-                    bodovani(vysledek,score_hrac, score_pc)
-                    znovu = input("Chceš hrát znovu? A/N: ").lower()
-                    if znovu != "a":
-                        print(f"{'Díky za hru':^50}")
-                        break
 
-            #nuzky - papir
-            if hrac == "nuzky":
-                if pocitac == "papir":
-                    vysledek = "vyhra"
-                    print(ODDELOVAC)
-                    print(f"{'Vyhrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_hrac += 1
-                    bodovani(vysledek,score_hrac, score_pc)
+def ukonceni_hry(zadani_od_hrace) -> str:
+    if zadani_od_hrace == "q":
+        print("Díky za hru!")
+        exit()
 
-            elif hrac == "papir":
-                if pocitac == "nuzky":
-                    vysledek = "prohra"
-                    print(ODDELOVAC)
-                    print(f"{'Prohrál jsi!':^50}")
-                    print(ODDELOVAC)
-                    score_pc += 1
-                    bodovani(vysledek,score_hrac, score_pc)
-                    znovu = input("Chceš hrát znovu? A/N: ").lower()
-                    if znovu != "a":
-                        print(f"{'Díky za hru':^50}")
-                        break
 
-if __name__ == "__main__":
-    hra()
+def zadani_computer() -> str:
+    moznost_computer = random.choice(MOZNOSTI)
+    return moznost_computer
 
+
+def vyhodnoceni(volba_hrac, volba_computer) -> str:
+    vysledek = ""
+    if volba_hrac == volba_computer:
+        vysledek = "remiza"
+
+    elif volba_hrac == "kamen":
+        if volba_computer == "nuzky":
+            vysledek = "vyhra"
+        else:
+            vysledek = "prohra"
+
+    elif volba_hrac == "papir":
+        if volba_computer == "kamen":
+            vysledek = "vyhra"
+        else:
+            vysledek = "prohra"
+
+    elif volba_hrac == "nuzky":
+        if volba_computer == "papir":
+            vysledek = "vyhra"
+        else:
+            vysledek = "prohra"
+    return vysledek
+
+
+def pricteni_bodu(vysledek_hry: str, pricteni_bodu_hrac:int, pricteni_bodu_computer: int) -> [int,int]: #nesmím to mít ve funkci, protože to veme vždycky znovu hodnoty skore s nulou!
+    if vysledek_hry == "vyhra":
+        return pricteni_bodu_hrac + 1, pricteni_bodu_computer
+    if vysledek_hry == "prohra":
+        return pricteni_bodu_hrac, pricteni_bodu_computer + 1
+    return pricteni_bodu_hrac, pricteni_bodu_computer
+
+
+def vypsani_skore(body_hrac, body_computer):
+    print(f"Body Hráč: {body_hrac} vs Počítač: {body_computer}")
+    print("-" * 50)
